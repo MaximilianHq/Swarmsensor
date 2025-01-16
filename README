@@ -1,6 +1,6 @@
-main.py initializes the code and records a new sample. 
-The peak frequency is then stored by date togeather with 
-a txt containing time : peak frequency for every sample.
+main.py is run with predetermined intervals from a raspberry pi (or similar)
+At every run a new audiosample is recorded and analyzed
+and the peak frequency is stored in text-files sorted by date.
 
 to plot the frequency curves, simply run plot.py and insert
-the file path of the wav file.
+the file path of the wav file you wish to analyze.
