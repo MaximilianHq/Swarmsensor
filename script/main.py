@@ -1,7 +1,9 @@
 import record
-import analyze
 import datetime
 import os, numpy as np, pandas as pd
+
+SAMPLE_LENGTH = 10 #s
+SAMPLE_RATE = 4*256 #fs (x*256)
 
 def storeSampleData(data:np.ndarray):
     #get current date
@@ -28,7 +30,9 @@ def storeSampleData(data:np.ndarray):
     new_df = pd.DataFrame({
         # convert to storable format, [pd.to_datetime()]
         "timestamp": [date.isoformat()], 
-        "sample id": [sample_path]
+        "sample id": [f'sample_{s_date}{s_time}.npy'],
+        "sample length": [SAMPLE_LENGTH],
+        "sample rate": [SAMPLE_RATE]
     })
     
     try:
@@ -36,13 +40,15 @@ def storeSampleData(data:np.ndarray):
         df = pd.read_csv(metadata_path)
         #add new data
         df = pd.concat([df, new_df], ignore_index=True)
-    except FileNotFoundError:
+    except FileNotFoundError as error:
+        print(error)
         df = new_df
 
     #store metadata
-    df.to_csv(metadata_path, index=False)  
+    df.to_csv(metadata_path, index=False)
+    print("data stored succesfully")
 
 if __name__ == '__main__':
 
-    data_sample = record.recordSample(10)
+    data_sample = record.recordSample(SAMPLE_LENGTH, SAMPLE_RATE)
     storeSampleData(data_sample)
