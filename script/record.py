@@ -3,8 +3,8 @@ import pyaudio, numpy as np
 p = pyaudio.PyAudio()
 
 CHANNELS = 1 #number of audio channels (mono)
-CHUNK = 256 #frames per buffer
-FORMAT = pyaudio.paInt16 #sample size (2 bytes)
+CHUNK = 512 #frames per buffer
+FORMAT = pyaudio.paInt16
 
 def recordSample(rec_len:int, SAMPLE_RATE:int):
     stream = p.open(

@@ -3,7 +3,7 @@ import datetime
 import os, numpy as np, pandas as pd
 
 SAMPLE_LENGTH = 10 #s
-SAMPLE_RATE = 4*256 #fs (x*256)
+SAMPLE_RATE = 3*512 #fs
 
 def storeSampleData(data:np.ndarray):
     #get current date
@@ -14,7 +14,8 @@ def storeSampleData(data:np.ndarray):
     #get data path
     script_dir = os.path.dirname(__file__) #absolute dir of script
     data_path = os.path.join(script_dir, f"data/{s_date}/")
-    sample_path = os.path.join(data_path, f'sample_{s_date}{s_time}.npy')
+    sample_file = f'sample_{s_date}{date.strftime('%H')}.npy'
+    sample_path = os.path.join(data_path, sample_file)
     metadata_path = os.path.join(data_path, f'meta_{s_date}.csv')
 
     #check whether the specified path exists
@@ -30,7 +31,7 @@ def storeSampleData(data:np.ndarray):
     new_df = pd.DataFrame({
         # convert to storable format, [pd.to_datetime()]
         "timestamp": [date.isoformat()], 
-        "sample id": [f'sample_{s_date}{s_time}.npy'],
+        "sample id": [sample_file],
         "sample length": [SAMPLE_LENGTH],
         "sample rate": [SAMPLE_RATE]
     })
